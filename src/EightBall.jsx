@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 const EightBall = () => {
-    const [question, setAnswers] = useState({msg: "Think of a Question", color: "black"});
+    const initialValue = {msg: "Think of a Question", color: "black"}
+    const [answers, setAnswers] = useState(initialValue);
+   
+    const [count, setCount] = useState({green:0, goldenrod:0, red:0 });
     
     
     const Answers = [
@@ -27,11 +30,27 @@ const EightBall = () => {
         { msg: "Very doubtful.", color: "red" },
       ];
 
+     const changeBall = () => {
+        setAnswers(Answers[Math.floor(Math.random()*Answers.length)]);
+      
+     }
+     const reset = (initialValue) => {
+        if(answers.color !== 'black'){
+        let Update = count;
+        Update[answers.color] +=1;
+        setCount(Update);
+        }
+        setAnswers(initialValue);
+     }
     
     return (
-        <div onClick={() => setAnswers(Answers[Math.floor(Math.random()*Answers.length)])} className="EightBall" style={{backgroundColor: question.color}} > 
-            <p className="EightBall-Text">{question.msg}</p>
-        </div>
+        <>
+            <div onClick={() => answers.color === "black" ? changeBall() : setAnswers(answers)} className="EightBall" style={{backgroundColor: answers.color}} > 
+                <p className="EightBall-Text">{answers.msg}</p>
+            </div>
+            <br />
+            <button className="EightBall-Text" onClick={() => reset(initialValue)}>Reset</button>
+        </>
     )
 }
  
